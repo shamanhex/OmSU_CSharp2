@@ -1,4 +1,7 @@
-﻿namespace Ex01
+﻿using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Ex01
 {
     public class Program
     {

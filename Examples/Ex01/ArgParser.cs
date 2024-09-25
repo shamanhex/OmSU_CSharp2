@@ -19,6 +19,11 @@ namespace Ex01
         {
             _args = Environment.GetCommandLineArgs();
         }
+
+        public static void SetArgs(params string[] args)
+        {
+            _args = args;
+        }
         
         public static bool HasArg(string argName) 
         {
