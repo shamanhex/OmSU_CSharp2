@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ex01
+namespace Ex01.Files
 {
-    public static class EmployeeTextLoader
+
+    [FileExtension(".TXT")]
+    public class EmployeeTextLoader : EmployeeLoaderCore
     {
-        public static List<Employee> LoadFrom(string path)
+        public override List<Employee> LoadFrom(string path)
         {
             List<Employee> list = new List<Employee>();
 
@@ -17,9 +19,9 @@ namespace Ex01
             {
                 string[] values = line.Split(';');
 
-                if (values.Length < 3) 
+                if (values.Length < 3)
                 {
-                    Console.WriteLine("Ошибка в строке: "+line);
+                    Console.WriteLine("Ошибка в строке: " + line);
                     continue;
                 }
 

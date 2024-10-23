@@ -5,17 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Ex01
+namespace Ex01.Files
 {
-    public static class EmployeeJsonLoader
+    [FileExtension(".JSON")]
+    public class EmployeeJsonLoader : EmployeeLoaderCore
     {
-        public static List<Employee> LoadFrom(string path)
+        public override List<Employee> LoadFrom(string path)
         {
             string json = File.ReadAllText(path);
             return JsonConvert.DeserializeObject<List<Employee>>(json);
         }
 
-        public static void SaveTo(string path, List<Employee> employees) 
+        public static void SaveTo(string path, List<Employee> employees)
         {
             string json = JsonConvert.SerializeObject(employees);
             File.WriteAllText(path, json);

@@ -8,21 +8,9 @@ using System.Xml.Serialization;
 
 namespace Ex01
 {
-    public class Employee
+    public class Employee : Object
     {
-        private String _Name;
-
-        public String Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            { 
-                _Name = value; 
-            }
-        }
+        public String Name { get; set; }
 
         private double _Salary;
 
@@ -40,9 +28,23 @@ namespace Ex01
             set { _Birthday = value; }
         }
 
+        public Employee() { }
+
+        public Employee(string name, double salary, DateTime birthday)
+        {
+            Name = name;
+            Salary = salary;
+            Birthday = birthday;
+        }
+
         public override string ToString()
         {
             return string.Format("{0} ({1})", Name, Birthday);
+        }
+
+        protected void Do()
+        {
+            Console.WriteLine("Something doing...");
         }
     }
 }
