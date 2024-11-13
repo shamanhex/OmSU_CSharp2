@@ -1,4 +1,6 @@
-﻿namespace PLLab
+﻿using PLLab.DB;
+
+namespace PLLab
 {
     public class Program
     {
@@ -7,35 +9,44 @@
         {
             Log.Debug("Start");
 
-            string name = ArgParser.GetArgAsString(ArgParser.ARG_NAME);
-            Log.Debug("Name is '{0}'", name);
-            if (string.IsNullOrWhiteSpace(name))
+            int opAdd = ArgParser.HasArg(ArgParser.ARG_ADD) ? 1 : 0;
+            int opList = ArgParser.HasArg(ArgParser.ARG_LIST) ? 1 : 0;
+            int opShow = ArgParser.HasArg(ArgParser.ARG_SHOW) ? 1 : 0;
+            int opUpdate = ArgParser.HasArg(ArgParser.ARG_UPDATE) ? 1 : 0;
+            int opRemove = ArgParser.HasArg(ArgParser.ARG_REMOVE) ? 1 : 0;
+
+            int opSum = opAdd + opList + opShow + opUpdate + opRemove;
+
+            if (opSum == 0)
             {
-                Log.Error("ERROR: Name not specified. Please, specify --name argument.");
+                Log.Error("ERROR: Please specify arguments.");
                 return;
             }
-            string sHired = ArgParser.GetArgAsString(ArgParser.ARG_HIRED);
-            Log.Debug("Hired string is '{0}'", sHired);
-            if (string.IsNullOrWhiteSpace(sHired))
+
+            if (opSum > 1)
             {
-                Log.Error("ERROR: Hired date not specified. Please, specify --hired argument.");
+                Log.Error("ERROR: Please specify only 1 operation.");
                 return;
             }
-            try
+
+            DBService.Init();
+
+            if (opAdd == 1)
             {
-                DateTime hired = DateTime.ParseExact(sHired, "dd.MM.yyyy", null);
-                Log.Debug("Hired date is '{0}'", hired);
-                string message = Cfg.ReadString("Message");
-                Log.Debug("Message from config '{0}'", message);
-                message = message.Replace("%name%", name);
-                message = message.Replace("%hired%", hired.ToString("dd.MM.yyyy"));
-                Log.Info(message);
+                string name = ArgParser.GetArgAsString(ArgParser.ARG_NAME);
+                double count = ArgParser.GetArgAsDouble(ArgParser.ARG_COUNT);
+                DateTime releaseDate = ArgParser.GetArgAsDateTimeOrDefault(ArgParser.ARG_RELEASE, DateTime.Now);
+
+                Product newProduct = new Product()
+                {
+                    Name = name,
+                    Count = count,
+                    LastRelease = releaseDate
+                };
+
+                DBService.Current.Add(newProduct);
             }
-            catch (FormatException ex)
-            {
-                Log.Error("ERROR: Hired date is incorrect. Please, use the format DD.MM.YYYY. ({0})", ex.Message);
-                return;
-            }
+
             Log.Debug("Finish");
         }
     }
