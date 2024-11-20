@@ -42,9 +42,9 @@ Validation errors:
             "Fired": "01.09.2020 0:00:00"
         },
         {
-            "FullName": "Pertov E.G."
+            "FullName": "Petrov E.G."
             "Email": "Petrov@org.ru"
-            "Phone": "8 (923) 67-222-37"
+            "Phone": "8(923)67-222-37"
             "Hired": "01.09.2021 0:00:00"
             "Fired": ""
         }
@@ -55,7 +55,7 @@ Validation errors:
 2. Вывод на экран программы должен быть следующим (текст и конкретные формулировки могут отличаться, но общий стиль форматирования и структура вывода должны сохраняться):
 
 ```Shell
->pllab.exe --show --email "Ivanova" 
+>pllab.exe --show --email "ivanova" 
  Name: 
 EMail: Ivanova
 Phone: 23-45-6seven
@@ -68,10 +68,10 @@ Validation errors:
 3. Phone format is incorrect. 
 4. Hired date is more than fired. Please, check dates.
 
->pllab.exe --show --email "Ivanova@org.ru" 
+>pllab.exe --show --email "Petrov@org.ru" 
  Name: Pertov E.G.
 EMail: Petrov@org.ru
-Phone: 8 (923) 67-222-37
+Phone: 8(923)67-222-37
 Hired: 01.09.2021
 Fired: 
 ```
