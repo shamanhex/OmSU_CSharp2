@@ -57,17 +57,59 @@ namespace PLLab.DB
                 {
                     Log.Debug("Add product. Product {0} was found.", product.Name);
                     isExist = true;
-                    record.Count += product.Count;
-                    record.LastRelease = product.LastRelease;
+                    if (product.Count != 0)
+                    {
+                        Log.Info("Count updated");
+                        record.Count += product.Count;
+                    }
+                    if (record.LastRelease.Date != product.LastRelease.Date)
+                    {
+                        Log.Info("Release updated");
+                        record.LastRelease = product.LastRelease.Date;
+                    }
                     break;
                 }
             }
             if (!isExist) 
             {
                 Log.Debug("Add product. Product {0} was NOT found. Create new.", product.Name);
+                product.LastRelease = product.LastRelease.Date;
                 records.Add(product);
             }
             Current.SaveAll(records);
         }
+
+        public Product GetByName(string name)
+        {
+            List<Product> records = Current.GetAll();
+            foreach (Product record in records)
+            {
+                if (string.Compare(record.Name, name, true) == 0)
+                {
+                    Log.Debug("Product with name '{0}' was found", name);
+                    return record;
+                }
+            }
+            Log.Debug("Product with name '{0}' was not found", name);
+            return null;
+        }
+
+        public void RemoveByName(string name)
+        {
+            List<Product> records = Current.GetAll();
+            for (int i = 0; i < records.Count; i++)
+            {
+                Product record = records[i];
+                if (string.Compare(record.Name, name, true) == 0)
+                {
+                    Log.Debug("Product with name '{0}' was found and remove.", name);
+                    records.Remove(record);
+                    SaveAll(records);
+                    return;
+                }
+            }
+            Log.Debug("Product with name '{0}' was not found. Remove not necessary.", name);
+        }
+
     }
 }
