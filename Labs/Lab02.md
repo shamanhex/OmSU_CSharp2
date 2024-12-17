@@ -33,7 +33,7 @@ dotnet add package NLog
 1. При выполнении программы, сообщение должно формироваться на основе параметра указанного в appsettings.json. Пример:
 
 ```Shell
->'{ "Message":"%name% hired %hired%" }' > appsettings.json
+> echo { "Message":"%name% hired %hired%" } > appsettings.json
 >pllab.exe --name "Ivanov Ivan Ivanovich" --hired "01.01.2020"
 Ivanov Ivan Ivanovich hired 01.01.2020
 ```
@@ -41,7 +41,7 @@ Ivanov Ivan Ivanovich hired 01.01.2020
 2. Если файл конфигурации не найден, должно выводиться сообщение об ошибке:
 
 ```Shell
->rm appsettings.json
+>del appsettings.json
 >pllab.exe --name "Ivanov Ivan Ivanovich" --hired "01.01.2020"
 ERROR: Configuration file appsettings.json not found or access denied.
 ```
