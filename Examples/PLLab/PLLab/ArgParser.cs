@@ -57,6 +57,16 @@ namespace PLLab
 
         public static string GetArgAsString(string argName)
         {
+            return GetArgAsString(argName, true, null);
+        }
+
+        public static string GetArgAsStringOrDefault(string argName, string defaultValue)
+        {
+            return GetArgAsString(argName, false, defaultValue);
+        }
+
+        public static string GetArgAsString(string argName, bool isRequired, string defaultValue)
+        {
             Log.Debug("Found string argument '{0}'", argName);
             for (int i = 0; i < _args.Length; i++)
             {
@@ -64,15 +74,29 @@ namespace PLLab
                 {
                     if (i + 1 > _args.Length - 1)
                     {
-                        Log.Debug("Argument '{0}' found without value", argName);
-                        return null;
+                        if (isRequired)
+                        {
+                            Log.Error("Argument '{0}' found without value", argName);
+                            throw new InvalidOperationException(string.Format("ERROR: String argument '{0}' found without value", argName));
+                        }
+                        else
+                        {
+                            return defaultValue;
+                        }
                     }
                     Log.Debug("String argument '{0}' was found", argName);
                     return _args[i+1];
                 }
             }
-            Log.Error("ERROR: String argument '{0}' was NOT found", argName);
-            throw new InvalidOperationException(string.Format("ERROR: String argument '{0}' was NOT found", argName));
+            if (isRequired)
+            {
+                Log.Error("ERROR: String argument '{0}' was NOT found", argName);
+                throw new InvalidOperationException(string.Format("ERROR: String argument '{0}' was NOT found", argName));
+            }
+            else
+            {
+                return defaultValue;
+            }
         }
 
         internal static double GetArgAsDouble(string argName)

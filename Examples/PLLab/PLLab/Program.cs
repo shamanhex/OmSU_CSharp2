@@ -1,4 +1,5 @@
 ﻿using PLLab.DB;
+using PLLab.Validation;
 using System.Numerics;
 using System.Xml.Linq;
 
@@ -148,6 +149,15 @@ namespace PLLab
                 Count = count,
                 LastRelease = releaseDate
             };
+
+            List<ValidateException> validateErrors = Validator.Validate(newProduct);
+            if (validateErrors != null && validateErrors.Count > 0)
+            {
+                foreach (ValidateException err in validateErrors)
+                    Log.Error(err.Message);
+
+                throw validateErrors.First();
+            }
 
             DBService.Current.Add(newProduct);
         }

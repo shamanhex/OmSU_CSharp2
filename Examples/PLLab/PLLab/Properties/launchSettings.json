@@ -2,7 +2,7 @@
   "profiles": {
     "PLLab": {
       "commandName": "Project",
-      "commandLineArgs": "--add --name Apple --count 3"
+      "commandLineArgs": "--add --name \"  \" --count 3"
     }
   }
 }
